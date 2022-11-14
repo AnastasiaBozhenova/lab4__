@@ -1,0 +1,33 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container-xxl{
+    max-width: 1600px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.nav-link:hover{
+  background-color: darkgray;
+  border-radius: 10px;
+}

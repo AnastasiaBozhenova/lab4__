@@ -1,0 +1,98 @@
+﻿@model X.PagedList.IPagedList<Customs.WebAPI.Models.Product.ResultProductVm>
+@using X.PagedList.Mvc.Core
+
+@{ ViewData["Title"] = "Виды товаров"; }
+
+<div class="container-xxl">
+    <div class="table-wrapper">
+        <div class="table-title mb-2 mt-2">
+            <div class="row">
+                <div class="col-sm-7">
+                    <a asp-action="Create" class="btn btn-success">
+                        <span>Добавить</span>
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <input placeholder="Поиск по наименованию" id="searchInput" class="form-control">
+                </div>
+                <div class="col-sm-1">
+                    <a class="btn btn-outline-info" id="searchBtn">
+                        <span>Поиск</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Наименование
+                </th>
+                <th>
+                    Единица измерения
+                </th>
+                <th>
+                    Наименование склада
+                </th>
+                <th style="max-width: 180px;">
+                    Пошлина за единицу измерения товара
+                </th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.UnitMeasurement)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.StorageName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Duty)
+                    </td>
+                    <td>
+                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-info">Редактирование</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-info">Удаление</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <br />
+        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+        @if (Model.PageCount > 1)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new X.PagedList.Web.Common.PagedListRenderOptions
+            {
+                LiElementClasses = new[] { "page-item" },
+                PageClasses = new[] { "page-link" }
+            })
+        }
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        $("#searchBtn").click(function ()
+        {
+            const searchString = $("#searchInput").prop('value');
+            const url = "/Products/Index?searchString=" + searchString;
+            window.location.replace("https://localhost:5001" + url);
+        })
+    </script>
+}
